@@ -4,10 +4,8 @@ const app = express();
 
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const passport = require("passport");
 
 const db = require("./config/connection");
-const passportSetup = require("./config/passport-setup");
 
 //requiring routes
 const userRoutes = require("./api/routes/user");
@@ -46,8 +44,6 @@ const corsOptions = {
 };
 app.options("*", cors(corsOptions));
 app.use(cors(corsOptions));
-
-app.use(passport.initialize());
 
 app.use("/images", express.static("images"));
 
