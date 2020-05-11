@@ -12,8 +12,11 @@ module.exports = {
   },
 
   mysql: {
+    /* mysql://b0965f7538e9ad:ab8d068c@eu-cdbr-west-03.cleardb.net/heroku_abc916623316d5e?reconnect=true */
+    host: "eu-cdbr-west-03.cleardb.net",
+    user: "b0965f7538e9ad",
     database: "dcnn_db",
-    password: "BadHouse<3",
+    password: "ab8d068c",
   },
 
   jwt: {
