@@ -1,13 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const https = require("https");
 const request = require("request");
 const checkAuth = require("./../checkAuth");
 const db = require("../../config/connection");
-const keys = require("../../config/keys");
 
 router.post("/refreshEventi", (req, res) => {
-  request.get({ url: keys.FbApi.refreshEvents }, (error, response, body) => {
+  request.get({ url: process.env.refreshEvents }, (error, response, body) => {
     let fbEvents = JSON.parse(response.body);
     //console.log(fbEvents.events.data.length);
     for (i = 0; i < fbEvents.events.data.length; i++) {
@@ -51,7 +49,7 @@ function inserisci(dati) {
 }
 
 router.patch("/refreshCover", (req, res) => {
-  request.get({ url: keys.FbApi.refreshCover }, (error, response, body) => {
+  request.get({ url: process.env.refreshCover }, (error, response, body) => {
     let fbEvents = JSON.parse(response.body);
     console.log(fbEvents.events.data.length);
     for (i = 0; i < fbEvents.events.data.length; i++) {

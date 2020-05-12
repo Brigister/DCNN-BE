@@ -70,7 +70,7 @@ router.get("/getVisiblePhotos", (req, res) => {
 
 router.post("/postPhoto", checkAuth, upload.single("image"), (req, res) => {
   var image = {
-    path_img: "http://localhost:3000/" + req.file.path.replace("\\", "/"),
+    path_img: "https://dcnn.herokuapp.com/" + req.file.path.replace("\\", "/"),
   };
 
   let sql = "INSERT INTO immagini SET" + db.escape(image);

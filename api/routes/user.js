@@ -3,7 +3,6 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const key = require("../../config/keys");
 const db = require("../../config/connection");
 
 router.get("/users", function (req, res) {
@@ -82,7 +81,7 @@ router.post("/login", function (req, res) {
               cognome: results[0].cognome,
               powerLevel: results[0].powerLevel,
             },
-            key.jwt.jwtSecret,
+            process.env.jwtSecret,
             {
               expiresIn: "2h",
             }
