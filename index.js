@@ -55,6 +55,8 @@ app.use("/album", albumRoutes);
 app.use("/mapmarkers", mapmarkersRoutes);
 app.use("/videoclip", videoclipRoutes);
 
-//Connection to DB
+app.get("/", (req, res) => {
+  res.send("Welcome to DCNN API");
+});
 
 server.listen(port);
