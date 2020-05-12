@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const checkAuth = require("./../checkAuth");
+
 const db = require("../../config/connection");
 
 router.get("/getMarkers", (req, res) => {

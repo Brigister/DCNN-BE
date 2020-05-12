@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+require("dotenv").config();
 const db = require("../../config/connection");
 
 router.get("/users", function (req, res) {
@@ -81,7 +82,7 @@ router.post("/login", function (req, res) {
               cognome: results[0].cognome,
               powerLevel: results[0].powerLevel,
             },
-            process.env.jwtSecret,
+            process.env.JWT_SECRET,
             {
               expiresIn: "2h",
             }

@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const request = require("request");
 const checkAuth = require("./../checkAuth");
+
+require("dotenv").config();
 const db = require("../../config/connection");
 
 router.post("/refreshEventi", (req, res) => {

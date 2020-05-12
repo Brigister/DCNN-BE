@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const nodemailer = require("nodemailer");
 
+require("dotenv").config();
 const db = require("../../config/connection");
 
 router.get("/getMessages", (req, res) => {
@@ -47,10 +48,10 @@ router.post("/postMessage", (req, res) => {
 });
 
 let transporter = nodemailer.createTransport({
-  host: process.env.mailhost,
+  host: process.env.NODEMAILER_HOST,
   auth: {
-    user: process.env.email,
-    pass: process.env.password,
+    user: process.env.EMAIL,
+    pass: process.env.EMAIL_PASSWORD,
   },
 });
 router.post("/sendMail", (req, res) => {
@@ -62,8 +63,8 @@ router.post("/sendMail", (req, res) => {
   };
 
   const mailOptions = {
-    from: "Nodemailer " + process.env.email,
-    to: process.env.email,
+    from: "Nodemailer " + process.env.EMAIL,
+    to: process.env.EMAIL,
     subject: "ContactDCNN " + messageData.nome + " " + messageData.cognome,
     html:
       "<p>Mittente: </p>" +
