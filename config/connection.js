@@ -3,9 +3,9 @@ const keys = require("./keys");
 
 const db = mysql.createConnection({
   host: keys.mysql.host,
-  port: "3306",
-  user: keys.mysql.username,
+  user: keys.mysql.user,
   password: keys.mysql.password,
+  database: keys.mysql.database,
 });
 
 db.connect(function (err) {
