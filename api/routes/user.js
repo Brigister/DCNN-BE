@@ -37,14 +37,13 @@ router.post("/signup", function (req, res) {
         if (err) console.log(err);
         else {
           var user = {
-            username: req.body.username,
             email: req.body.email,
             password: hash,
             nome: req.body.nome,
             cognome: req.body.cognome,
           };
           //inserisco il nuovo user
-          let sql = "INSERT INTO dcnn_db.users SET " + db.escape(user);
+          let sql = "INSERT INTO users SET " + db.escape(user);
           db.query(sql, function (err, results) {
             if (err) console.log(err);
             else {
