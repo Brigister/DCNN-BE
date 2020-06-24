@@ -7,62 +7,57 @@ require("dotenv").config();
 const db = require("../../config/connection");
 
 router.post("/refreshEventi", (req, res) => {
+
   request.get({ url: process.env.refreshEvents }, (error, response, body) => {
     let fbEvents = JSON.parse(response.body);
-    //console.log(fbEvents.events.data.length);
+    let dati = fbEvents.events;
+    let eventsArr = [];
+
     for (i = 0; i < fbEvents.events.data.length; i++) {
-      inserisci(fbEvents.events.data[i]);
+      eventsArr.push([
+        dati.data[i].id,
+        dati.data[i].name,
+        dati.data[i].description,
+        dati.data[i].place ? dati.data[i].place.name : null,
+        dati.data[i].start_time,
+        dati.data[i].cover.source,
+        dati.data[i].place
+          ? dati.data[i].place.location
+            ? dati.data[i].place.location.latitude
+            : null
+          : null,
+        dati.data[i].place
+          ? dati.data[i].place.location
+            ? dati.data[i].place.location.longitude
+            : null
+          : null,
+      ]);
     }
 
-    res.status(200).send("ok");
+    let sql = "INSERT IGNORE INTO eventi VALUES ?";
+
+    db.query(sql, [eventsArr], function (err, results) {
+      if (err) res.send(err);
+      else res.send(results);
+    });
   });
+
+
 });
-
-function inserisci(dati) {
-  let event = {
-    idEventi: dati.id,
-    nome: dati.name,
-    descrizione: dati.description,
-    luogo: dati.place ? dati.place.name : null,
-    data: dati.start_time.replace("T", " ").split("+", 1),
-    urlfoto: dati.cover.source,
-    latitudine: dati.place
-      ? dati.place.location
-        ? dati.place.location.latitude
-        : null
-      : null,
-    longitudine: dati.place
-      ? dati.place.location
-        ? dati.place.location.longitude
-        : null
-      : null,
-  };
-
-  var insertEvent =
-    "IF NOT EXISTS (SELECT * FROM eventi WHERE idEventi = " +
-    db.escape(event.idEventi) +
-    "INSERT INTO eventi SET " +
-    db.escape(event);
-
-  db.query(insertEvent, function (err, results) {
-    if (err) console.log(err);
-    else console.log(results);
-  });
-}
 
 router.patch("/refreshCover", (req, res) => {
   request.get({ url: process.env.refreshCover }, (error, response, body) => {
     let fbEvents = JSON.parse(response.body);
     console.log(fbEvents.events.data.length);
     for (i = 0; i < fbEvents.events.data.length; i++) {
-      inserisci(fbEvents.events.data[i]);
+      updateCover(fbEvents.events.data[i]);
     }
 
     res.status(200).send("ok");
   });
 });
 
-function inserisci(dati) {
+function updateCover(dati) {
   console.log(dati);
   let updateCover =
     "UPDATE eventi SET UrlFoto = " +
