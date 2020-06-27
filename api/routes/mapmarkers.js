@@ -108,7 +108,7 @@ router.patch("/addRegion", checkAuth, (req, res) => {
 
 router.get("/getRegionCount", (req, res) => {
   let sql =
-    "SELECT regione, COUNT(regione) AS quantita FROM maps_markers WHERE regione IS NOT NULL GROUP BY regione ORDER BY quantita";
+    "SELECT regione, COUNT(regione) AS quantita FROM maps_markers WHERE regione IS NOT NULL GROUP BY regione ORDER BY quantita DESC";
 
   db.query(sql, (err, result) => {
     if (err) {
