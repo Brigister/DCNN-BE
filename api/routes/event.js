@@ -6,7 +6,7 @@ const checkAuth = require("./../checkAuth");
 require("dotenv").config();
 const db = require("../../config/connection");
 
-router.post("/refreshEventi", (req, res) => {
+router.post("/refreshEventi", checkAuth, (req, res) => {
 
   request.get({ url: process.env.refreshEvents }, (error, response, body) => {
     let fbEvents = JSON.parse(response.body);
@@ -45,7 +45,7 @@ router.post("/refreshEventi", (req, res) => {
 
 });
 
-router.patch("/refreshCover", (req, res) => {
+router.patch("/refreshCover", checkAuth, (req, res) => {
   request.get({ url: process.env.refreshCover }, (error, response, body) => {
     let fbEvents = JSON.parse(response.body);
     console.log(fbEvents.events.data.length);
@@ -73,7 +73,7 @@ function updateCover(dati) {
 
 router.get("/activeEvent", (req, res) => {
   var activeEvent =
-    "SELECT *, DATE_FORMAT(eventi.data,'%d %m %Y %H:%i') AS Formatted FROM eventi WHERE Data > CURRENT_timestamp()";
+    "SELECT *, DATE_FORMAT(eventi.data,'%d/%m/%Y %H:%i') AS Formatted FROM eventi WHERE Data > CURRENT_timestamp()";
 
   db.query(activeEvent, (err, result) => {
     if (err) {
@@ -111,7 +111,7 @@ router.get("/getFirst3Events", (req, res) => {
 
 router.get("/eventHistory", (req, res) => {
   var sql =
-    "SELECT *, DATE_FORMAT(eventi.data,'%d %m %Y %H:%i') AS Formatted FROM eventi WHERE Data < CURRENT_timestamp() ORDER BY Data DESC";
+    "SELECT *, DATE_FORMAT(eventi.data,'%d/%m/%Y %H:%i') AS Formatted FROM eventi WHERE Data < CURRENT_timestamp() ORDER BY Data DESC";
 
   db.query(sql, (err, result) => {
     if (err) {
@@ -128,7 +128,7 @@ router.get("/eventHistory", (req, res) => {
 
 router.get("/allEvents", checkAuth, (req, res) => {
   var activeEvent =
-    "SELECT *, DATE_FORMAT(eventi.data,'%d-%m-%Y %H:%i') AS Formatted FROM eventi ORDER BY Data DESC";
+    "SELECT *, DATE_FORMAT(eventi.data,'%d/%m/%Y %H:%i') AS Formatted FROM eventi ORDER BY Data DESC";
 
   db.query(activeEvent, (err, result) => {
     if (err) {

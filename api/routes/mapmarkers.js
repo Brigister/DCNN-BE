@@ -43,7 +43,7 @@ router.post("/addMarker", checkAuth, (req, res) => {
   });
 });
 
-router.post("/importMarkers", (req, res) => {
+router.post("/importMarkers", checkAuth, (req, res) => {
   let sql =
     "INSERT INTO maps_markers (lat, lng, luogo) SELECT DISTINCT Latitudine, Longitudine, Luogo FROM eventi WHERE Luogo NOT IN (SELECT luogo from maps_markers)";
 
@@ -83,7 +83,7 @@ router.delete("/deleteMarker/:id", checkAuth, (req, res) => {
   });
 });
 
-router.patch("/addRegion", (req, res) => {
+router.patch("/addRegion", checkAuth, (req, res) => {
   let sql =
     "UPDATE maps_markers SET regione =" +
     db.escape(req.body.regione) +
