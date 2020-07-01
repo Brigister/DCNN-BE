@@ -62,6 +62,7 @@ router.post("/sendMail", (req, res) => {
     testo: req.body.testo,
   };
 
+  console.log(messageData);
   const mailOptions = {
     from: "Nodemailer " + process.env.EMAIL,
     to: process.env.EMAIL,

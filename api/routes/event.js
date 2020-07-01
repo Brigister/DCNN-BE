@@ -92,7 +92,7 @@ router.get("/activeEvent", (req, res) => {
 
 router.get("/getFirst3Events", (req, res) => {
   var activeEvent =
-    "SELECT *, DATE_FORMAT(eventi.data,'%d/%m/%Y %H:%i') AS Formatted FROM eventi WHERE Data > CURRENT_timestamp() LIMIT 3";
+    "SELECT *, DATE_FORMAT(eventi.data,'%d/%m/%Y %H:%i') AS Formatted FROM eventi WHERE Data > CURRENT_timestamp() ORDER BY Data Desc LIMIT 3";
 
   db.query(activeEvent, (err, result) => {
     if (err) {
