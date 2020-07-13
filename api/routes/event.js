@@ -73,7 +73,7 @@ function updateCover(dati) {
 
 router.get("/activeEvent", (req, res) => {
   var activeEvent =
-    "SELECT *, DATE_FORMAT(eventi.data,'%d/%m/%Y %H:%i') AS Formatted FROM eventi WHERE Data > CURRENT_timestamp()";
+    "SELECT *, DATE_FORMAT(eventi.data,'%d/%m/%Y %H:%i') AS Formatted FROM eventi WHERE Data > CURRENT_timestamp() ORDER BY Data Asc";
 
   db.query(activeEvent, (err, result) => {
     if (err) {

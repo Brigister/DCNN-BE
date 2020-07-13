@@ -56,7 +56,9 @@ app.use("/mapmarkers", mapmarkersRoutes);
 app.use("/videoclip", videoclipRoutes);
 
 app.get("/", (req, res) => {
-  res.send("Welcome to DCNN API");
+  res.status(200).json({
+    message: "Welcome to DCNN API"
+  })
 });
 
 server.listen(port);
