@@ -90,7 +90,7 @@ router.post("/postPhoto", checkAuth, upload.single("image"), (req, res) => {
   });
 });
 
-router.patch("/:id_immagini/patchVisibility", (req, res) => {
+router.patch("/:id_immagini/patchVisibility", checkAuth, (req, res) => {
   let sql =
     "UPDATE immagini SET isVisible = NOT isVisible WHERE id_immagini =" +
     db.escape(req.params.id_immagini);
@@ -137,20 +137,18 @@ router.patch("/patchOrder", checkAuth, (req, res) => {
 });
 
 router.delete("/deletePhoto", checkAuth, (req, res) => {
-  console.log(req.body.path_img);
-  let find =
-    "SELECT path_img FROM immagini WHERE id_immagini=" +
-    db.escape(req.body.path_img);
 
-  /*  db.query(find, (err, result) => {
-    if (err) throw err;
-    else console.log(result.RowDataPacket);
-  }); */
+  const { path_img } = req.body
+  console.log(path_img);
+
   let sql =
     "DELETE FROM immagini WHERE id_immagini=" +
-    db.escape(req.params.id_immagini);
+    db.escape(path_img);
 
-  /*   db.query(sql, (err, result) => {
+  let path = path_img.slice(26);
+
+  fs.unlinkSync(`.${path}`)
+  db.query(sql, (err, result) => {
     if (err) {
       res.status(500).json({
         message: "Error",
@@ -162,9 +160,8 @@ router.delete("/deletePhoto", checkAuth, (req, res) => {
       });
     } else {
       res.status(200).send(result);
-      //fs.unlink(req.body.path);
     }
-  }); */
+  });
 });
 
 module.exports = router;
